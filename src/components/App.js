@@ -22,7 +22,13 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
+// end material-ui drawer example
+
+// let's get leaflet going
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+
 const drawerWidth = 240
+const appBarHeight = 64 // determined empirically
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
     // marginRight: theme.spacing(2),
@@ -56,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    // padding: theme.spacing(3)
+    marginTop: appBarHeight
   }
 }))
 
@@ -101,7 +108,7 @@ function ResponsiveDrawerRight (props) {
       <CssBaseline />
       <AppBar position='fixed' className={classes.appBar}>
         <Toolbar>
-          
+
           <Typography variant='h6' noWrap className={classes.title}>
             Responsive drawer
           </Typography>
@@ -118,7 +125,6 @@ function ResponsiveDrawerRight (props) {
       </AppBar>
 
       <main className={classes.content}>
-        <div className={classes.toolbar} />
         { props.children }
       </main>
 
@@ -166,57 +172,23 @@ ResponsiveDrawerRight.propTypes = {
   window: PropTypes.func
 }
 
-// end material-ui drawer example
-
 function App () {
+  const position = [38.703855, -96.9158899]//, 5.31z
+  const zoom = 4
   return (
     <div className='App'>
       <ResponsiveDrawerRight>
-        <header className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          <Counter />
-          <p>
-                      Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <span>
-            <span>Learn </span>
-            <a
-              className='App-link'
-              href='https://reactjs.org/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-                          React
-            </a>
-            <span>, </span>
-            <a
-              className='App-link'
-              href='https://redux.js.org/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-                          Redux
-            </a>
-            <span>, </span>
-            <a
-              className='App-link'
-              href='https://redux-toolkit.js.org/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-                          Redux Toolkit
-            </a>
-          ,<span> and </span>
-            <a
-              className='App-link'
-              href='https://react-redux.js.org/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-                          React Redux
-            </a>
-          </span>
-        </header>
+        <Map center={position} zoom={zoom}>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          />
+          <Marker position={position}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </Map>
       </ResponsiveDrawerRight>
     </div>
   )
